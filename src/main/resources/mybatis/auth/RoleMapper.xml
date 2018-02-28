@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.rocoinfo.repository.auth.RoleDao">
+  <resultMap id="BaseResultMap" type="com.rocoinfo.entity.auth.Role">
+    <id column="id" property="id"/>
+    <result column="name" property="name"/>
+    <result column="description" property="description"/>
+    <result column="app_id" property="appId"/>
+    <result column="deleted" property="deleted"/>
+    <result column="create_user" property="createUser.id"/>
+    <result column="create_time" property="createTime"/>
+  </resultMap>
+  <sql id="BaseColumn">
+    id, name, description, app_id, deleted, create_user, create_time
+  </sql>
+  <select id="getById" resultMap="BaseResultMap" parameterType="long">
+    select
+    <include refid="BaseColumn"/>
+    from auth_role
+    where id = #{id}
+  </select>
+  <delete id="deleteById" parameterType="long">
+    delete from auth_role
+    where id = #{id}
+  </delete>
+  <insert id="insert" parameterType="com.rocoinfo.entity.auth.Role" useGeneratedKeys="true" keyProperty="id">
+    insert into auth_role
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        name,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="appId != null">
+        app_id,
+      </if>
+      <if test="deleted != null">
+        deleted,
+      </if>
+      <if test="createUser != null">
+        create_user,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        #{name},
+      </if>
+      <if test="description != null">
+        #{description},
+      </if>
+      <if test="appId != null">
+        #{appId},
+      </if>
+      <if test="deleted != null">
+        #{deleted},
+      </if>
+      <if test="createUser != null">
+        #{createUser.id},
+      </if>
+      <if test="createTime != null">
+        #{createTime},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.rocoinfo.entity.auth.Role">
+    update auth_role
+    <set>
+      <if test="name != null">
+        name = #{name},
+      </if>
+      <if test="description != null">
+        description = #{description},
+      </if>
+      <if test="appId != null">
+        app_id = #{appId},
+      </if>
+      <if test="deleted != null">
+        deleted = #{deleted},
+      </if>
+      <if test="createUser != null">
+        create_user = #{createUser.id},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime},
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+
+  <select id="search" parameterType="map" resultMap="BaseResultMap">
+    SELECT
+    <include refid="BaseColumn"/>
+    FROM auth_role
+    <include refid="searchWhere"/>
+  </select>
+  <sql id="searchWhere">
+    <where>
+      name &lt;&gt; 'embed' AND deleted = 0
+      <if test="appId != null">
+        AND app_id = #{appId}
+      </if>
+      <if test="keyword != null">
+        AND name LIKE CONCAT('%',#{keyword},'%')
+      </if>
+    </where>
+  </sql>
+
+
+  <select id="selectRoleByNameAndAppId"  resultMap="BaseResultMap">
+    SELECT
+    <include refid="BaseColumn"/>
+    FROM auth_role
+    WHERE app_id = #{appId} AND `name` = #{roleName}
+  </select>
+
+</mapper>

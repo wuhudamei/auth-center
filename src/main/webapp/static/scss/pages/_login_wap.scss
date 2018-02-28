@@ -1,0 +1,138 @@
+/* iphone5 */
+
+@media only screen and (min-width: 320px) {
+    html {
+        /* 320/375 = 0.853333*/
+        font-size: 533.333333% !important;
+    }
+}
+/* android */
+
+@media only screen and (min-width: 360px) {
+    html {
+        /* 360/375 = 0.96  */
+        font-size: 600% !important;
+    }
+}
+/* iphone6 */
+
+@media only screen and (min-width: 375px) {
+    html {
+        /* 375/375 = 1  */
+        font-size: 625% !important;
+    }
+}
+/* iphone6Plus */
+
+@media only screen and (min-width: 414px) {
+    html {
+        /* 414/375 = 1.104 */
+        font-size: 690% !important;
+    }
+}
+
+html {
+    font-family: sans-serif;
+    /* 1 */
+    -ms-text-size-adjust: 100%;
+    /* 2 */
+    -webkit-text-size-adjust: 100%;
+    /* 2 */
+    font-size: 625%;
+    /* 取消手机点击屏幕时，会出现的灰块 */
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+.wrap-login-wap {
+    width: 100%;
+    height: 100%;
+    padding-bottom: .45rem;
+    background-size: cover !important;
+    background-position: center;
+    background-repeat: no-repeat;
+    background: url('../../img/wap/bg.png') 50%;
+    background-size: 100% 100%;
+    position: relative;
+    header {
+        padding: .16rem 0 0 .25rem;
+    }
+    .copyright {
+        height: .45rem;
+        font-size: .09rem;
+        overflow: hidden;
+        background: rgba(0, 0, 0, .5);
+        p {
+            margin: 0;
+            padding: 0;
+        }
+    }
+}
+
+
+.logo-wap {
+    width: 1.77rem;
+    height: .44rem;
+    background: url('../../img/wap/logo-wap.png');
+    background-size: 100% 100%;
+}
+
+.content-login-wap {
+    width: 100%;
+    //height: 100%;
+    position: relative;
+    //padding-bottom: .45rem;
+    .item-content {
+        width: auto;
+        margin: 0;
+        padding: 2.6rem .2rem 0 .2rem;
+    }
+    .item-inner {
+        flex: none;
+        width: 100%;
+    }
+    .login-nav .current {
+        color: #fff;
+        text-align: left;
+        height: .5rem;
+        padding: .1rem 0 0 .1rem;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+        h1 {
+            font-size: .15rem;
+            margin: 0;
+            padding: 0;
+        }
+        p {
+            font-size: .09rem;
+            margin: 0;
+            padding: 0;
+        }
+    }
+    .login-form {
+        float: none;
+        width: 100%;
+        border-radius: 5px;
+        padding: 0;
+        margin: 0;
+        .login-content {
+            margin: .15rem .4rem 0 .4rem;
+        }
+        .login-row {
+            margin-top: .15rem;
+        }
+    }
+    .button-login {
+        width: 100%;
+    }
+}
+
+@media (max-width:320px) {
+    .content-login-wap {
+        width: 100%;
+        //height: 100%;
+        position: relative;
+        .item-content {
+            padding-top: 2.3rem
+        }
+    }
+}

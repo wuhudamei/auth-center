@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.rocoinfo.repository.admin.SystemUserAppDao">
+  <resultMap id="SimpleResultMap" type="com.rocoinfo.entity.auth.App">
+    <id column="id" property="id"/>
+    <result column="name" property="name"/>
+    <result column="checked" property="checked"/>
+  </resultMap>
+
+  <insert id="insert" parameterType="com.rocoinfo.entity.admin.SystemUserApp">
+    INSERT INTO auth_system_user_app(user_id, app_id)
+    VALUES(#{userId},#{appId})
+  </insert>
+  <select id="findAppsByUserId" resultMap="SimpleResultMap">
+    SELECT a.id,a.name
+    FROM auth_app a LEFT JOIN auth_system_user_app ua ON a.id = ua.app_id
+    WHERE ua.user_id = #{userId}
+    ORDER BY a.id DESC
+  </select>
+
+  <select id="findAppsByUserIdWithEcho" resultMap="SimpleResultMap">
+    SELECT
+    a.id,a.name, CASE
+    WHEN ua.app_id IS NOT NULL THEN
+    'true'
+    ELSE
+    'false'
+    END AS checked
+    FROM
+    auth_app a LEFT JOIN auth_system_user_app ua ON (a.id = ua.app_id AND ua.user_id = #{userId} )
+    ORDER BY a.id DESC
+  </select>
+
+  <delete id="deleteByUserId">
+    DELETE FROM auth_system_user_app WHERE user_id = #{userId}
+  </delete>
+
+  <insert id="batchInsert" parameterType="java.util.List">
+    INSERT INTO auth_system_user_app(user_id, app_id)
+    VALUES
+    <foreach collection="userApps" item="item" separator=",">
+      (#{item.userId},#{item.appId})
+    </foreach>
+  </insert>
+</mapper>

@@ -1,0 +1,30 @@
+//== set icon.scss
+//
+//## css for icon 字体大小不会影响icon的垂直居中的位置,注意 icon 父元素必须设置line-height值为图片高
+.icon {
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    display: inline-block;
+    white-space: nowrap;
+    letter-spacing: -1em;
+    text-indent: -99em;
+    color: transparent;
+    padding: 0;
+    margin: 0;
+    &.icon-user1,&.icon-password1{
+        width: 15px;
+        height: 18px;
+        margin-top: 12px;
+    }
+    &.icon-user1 {
+        background-image: url('../../img/icon-user.png');
+    }
+    &.icon-password1{
+        background-image: url('../../img/icon-password.png');
+    }
+    &.icon-tel{
+        width: 26px;
+        height: 17px;
+        background-image: url('../../img/icon-tel.png');
+    }
+}

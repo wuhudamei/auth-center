@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.rocoinfo.repository.auth.UserDao">
+  <resultMap id="BaseResultMap" type="com.rocoinfo.entity.auth.User">
+    <id column="id" property="id"/>
+    <result column="org_code" property="username"/>
+    <result column="password" property="password"/>
+    <result column="salt" property="salt"/>
+    <result column="name" property="name"/>
+    <result column="job_num" property="jobNum"/>
+    <result column="dep_code" property="depCode"/>
+    <result column="org_code" property="orgCode"/>
+    <result column="mobile" property="mobile"/>
+    <result column="email" property="email"/>
+    <result column="account_status" property="status"/>
+    <result column="deleted" property="deleted"/>
+    <!--封装storeCode-->
+    <result column="store_code" property="storeCode"/>
+    <!--登录用户的 微信头像:来自wechat表-->
+    <result column="headimgurl" property="headimgurl"/>
+
+    <result column="position_id" property="positionId"/>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, job_num, dep_code, org_code, password, salt, name, mobile, email, account_status, deleted, create_user,
+    create_time
+  </sql>
+
+  <update id="update" parameterType="com.rocoinfo.entity.auth.User">
+    UPDATE oa_employee
+    <set>
+      <if test="password != null">
+        password = #{password},
+      </if>
+      <if test="salt != null">
+        salt = #{salt},
+      </if>
+    </set>
+    WHERE id = #{id}
+  </update>
+
+  <select id="getById" resultMap="BaseResultMap" parameterType="long">
+    select
+    <include refid="Base_Column_List"/>
+    from oa_employee
+    where id = #{id} AND deleted = 0
+  </select>
+
+  <update id="deleteById" parameterType="long">
+    UPDATE oa_employee
+    SET deleted = 1
+    where id = #{id}
+  </update>
+
+  <select id="search" resultMap="BaseResultMap" parameterType="java.util.Map">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM oa_employee
+    <where>
+      org_code &lt;&gt; 'admin' AND employee_status = 'ON_JOB' AND deleted = 0
+      <if test="keyword != null">
+        AND (org_code LIKE CONCAT('%',#{keyword},'%') OR name LIKE CONCAT('%',#{keyword},'%'))
+      </if>
+      <if test="status != null">
+        AND account_status = #{status}
+      </if>
+      <if test="appId != null">
+        AND id IN(SELECT user_id FROM auth_user_app WHERE app_id = #{appId})
+      </if>
+      <if test="roleId != null">
+        AND id IN(SELECT user_id FROM auth_user_role WHERE role_id = #{roleId})
+      </if>
+      <if test="exclusionAppUser != null">
+        AND id NOT IN (SELECT user_id FROM auth_user_app WHERE app_id = #{exclusionAppUser})
+      </if>
+    </where>
+    ORDER BY id DESC
+  </select>
+
+  <!-- 根据用户名查询用户  -->
+  <select id="getByUsername" parameterType="java.lang.String" resultMap="BaseResultMap">
+      SELECT
+         <include refid="Base_Column_List" />
+      FROM oa_employee
+      WHERE org_code = #{username}
+      AND employee_status = 'ON_JOB' AND deleted = 0;
+  </select>
+
+  <resultMap type="com.rocoinfo.entity.auth.User" id="MultiUserInfoMap" extends="BaseResultMap">
+    <collection property="roles" ofType="com.rocoinfo.entity.auth.Role">
+      <result property="name" column="role_name"/>
+      <collection property="permissions" ofType="com.rocoinfo.entity.auth.Permission">
+        <result property="permission" column="permission"/>
+      </collection>
+    </collection>
+  </resultMap>
+
+  <!--获取用户信息 并查询oa_employee_org表,将对应的公司且是门店标记的组织机构编码返回 store_code
+        如果其直属和兼职都是门店,那么就将其,号拼接起来;并且按照type排序
+          (DIRECTLY直属靠前,兼职PART_TIME靠后)-->
+  <select id="getAllInfoByUsernameAndAppId" resultMap="MultiUserInfoMap">
+    SELECT
+      u.id, u.job_num, u.password, u.salt, u.name, u.mobile, u.email, u.account_status,
+      u.dep_code,u.org_code,u.deleted,u.create_user, u.create_time,
+      r.name role_name,p.permission,weuser.headimgurl,u.position_id
+    FROM oa_employee u
+    LEFT JOIN auth_user_role ur ON u.id = ur.user_id
+    LEFT JOIN auth_role r ON (r.id = ur.role_id and r.app_id = #{appId} )
+    LEFT JOIN auth_role_permission rp ON r.id = rp.role_id
+    LEFT JOIN auth_permission p ON (p.id = rp.permission_id  AND p.app_id = #{appId})
+    LEFT JOIN wechat_user weuser ON weuser.user_id = u.id
+    WHERE u.org_code = #{username} AND u.employee_status = 'ON_JOB' AND u.deleted = 0
+  </select>
+
+
+  <select id="findUsersFromAppid" parameterType="map" resultMap="BaseResultMap">
+    SELECT e.id,e.name,e.job_num,e.dep_code,e.org_code,e.position,e.username,e.mobile,e.email
+    FROM oa_employee e
+    WHERE e.id IN
+    (SELECT user_id FROM auth_user_app ua WHERE ua.app_id = #{appId})
+    AND employee_status = 'ON_JOB' AND deleted = 0
+    <if test="roleId != null">
+      AND e.id IN
+      (SELECT user_id FROM auth_user_role ur WHERE ur.role_id = #{roleId})
+    </if>
+  </select>
+
+
+  <select id="selectUserByAppAndRole" resultType="map">
+    SELECT #{appId} AS appid,#{roleId} AS roleid,#{appName} AS appName,#{roleName} AS roleName,e.id AS userid,
+    e.name AS realName,e.org_code AS orgCode,e.position AS positionName,o1.org_name AS companyName,o2.org_name AS deptName,
+    eo.org_company_id AS companyId,eo.org_department_id AS deptId
+    FROM oa_employee e
+		LEFT JOIN oa_employee_org eo ON e.id=eo.emp_id
+		LEFT JOIN oa_organization o1 ON eo.org_company_id = o1.id
+		LEFT JOIN oa_organization o2 ON eo.org_department_id  = o2.id
+    WHERE e.employee_status='ON_JOB' AND e.account_status='OPEN' AND e.deleted=0
+    AND e.id IN (SELECT user_id FROM auth_user_app ua WHERE ua.app_id = #{appId})
+    AND e.id IN (SELECT user_id FROM auth_user_role ur WHERE ur.role_id = #{roleId})
+
+  </select>
+
+
+  <insert id="insertUserInfoWithGroup">
+    INSERT INTO tmp_userinfo_approle(appid,roleid,appName,roleName,userid,org_code,real_name,
+    position_name,company_id,company_name,dept_id,dept_name) VALUES
+    <foreach collection="userInfos" index="idx" item="userInfo" separator=",">
+      (#{userInfo.appid},#{userInfo.roleid},#{userInfo.appName},#{userInfo.roleName},#{userInfo.userid},
+      #{userInfo.orgCode},#{userInfo.realName},#{userInfo.positionName},#{userInfo.companyId},#{userInfo.companyName},
+      #{userInfo.deptId},#{userInfo.deptName})
+    </foreach>
+  </insert>
+
+
+  <delete id="deleteAllUserInfoWithGroup">
+    DELETE FROM tmp_userinfo_approle
+  </delete>
+
+
+  <select id="selectUserAllOrganization" resultType="map">
+    SELECT eog.*,og.org_code as depCode,og.org_name as depName,og.type as orgType
+    FROM (
+      select eog2.*,og2.org_name as companyName,og2.store_flag as ifStore,og2.org_code as storeCode from oa_employee_org eog2
+      left join  oa_organization og2 on eog2.org_company_id = og2.id where eog2.emp_id = #{userId}
+    ) eog
+    LEFT JOIN oa_organization og ON eog.org_id = og.id
+  </select>
+</mapper>

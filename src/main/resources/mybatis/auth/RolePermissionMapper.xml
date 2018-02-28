@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.rocoinfo.repository.auth.RolePermissionDao">
+  <resultMap id="BaseResultMap" type="com.rocoinfo.entity.auth.RolePermission">
+    <result column="role_id" property="roleId"/>
+    <result column="permission_id" property="permissionId"/>
+  </resultMap>
+  <insert id="insert" parameterType="com.rocoinfo.entity.auth.RolePermission">
+    insert into auth_role_permission
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="roleId != null">
+        role_id,
+      </if>
+      <if test="permissionId != null">
+        permission_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="roleId != null">
+        #{roleId},
+      </if>
+      <if test="permissionId != null">
+        #{permissionId},
+      </if>
+    </trim>
+  </insert>
+
+  <delete id="clearByRoleId">
+    DELETE FROM auth_role_permission WHERE role_id = #{roleId}
+  </delete>
+
+  <insert id="batchInsert">
+    INSERT INTO auth_role_permission(role_id,permission_id) VALUES
+    <foreach collection="permissionIds" item="permissionId" separator=",">
+      (#{roleId},#{permissionId})
+    </foreach>
+  </insert>
+
+  <select id="findRolePermission" resultType="appPermission">
+    SELECT DISTINCT
+    p.*,
+    CASE
+    WHEN rp.role_id IS NOT NULL THEN
+    'true'
+    ELSE
+    'false'
+    END AS checked
+    FROM
+    auth_permission p
+    LEFT JOIN auth_role_permission rp ON (p.id = rp.permission_id AND rp.role_id = #{roleId})
+    where p.app_id = #{appId}
+    order by p.seq, p.id
+  </select>
+</mapper>

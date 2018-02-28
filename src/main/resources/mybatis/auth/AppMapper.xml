@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.rocoinfo.repository.auth.AppDao">
+  <resultMap id="BaseResultMap" type="com.rocoinfo.entity.auth.App">
+    <id column="id" property="id"/>
+    <result column="name" property="name"/>
+    <result column="appid" property="appid"/>
+    <result column="secret" property="secret"/>
+    <result column="token" property="token"/>
+    <result column="url" property="url"/>
+    <result column="wx_appid" property="wxAppid"/>
+    <result column="wx_secret" property="wxSecret"/>
+    <result column="push_flag" property="pushFlag"/>
+    <result column="status" property="status"/>
+    <result column="deleted" property="deleted"/>
+    <result column="create_user" property="createUser.id"/>
+    <result column="create_time" property="createTime"/>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, name, appid, secret, token, url, wx_appid, wx_secret, push_flag, status, deleted, create_user,
+    create_time
+  </sql>
+  <select id="getById" resultMap="BaseResultMap" parameterType="long">
+    select
+    <include refid="Base_Column_List"/>
+    from auth_app
+    where id = #{id} AND deleted = 0
+  </select>
+  <delete id="deleteById" parameterType="long">
+    delete from auth_app
+    where id = #{id}
+  </delete>
+  <insert id="insert" parameterType="com.rocoinfo.entity.auth.App" useGeneratedKeys="true" keyProperty="id">
+    insert into auth_app
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        name,
+      </if>
+      <if test="appid != null">
+        appid,
+      </if>
+      <if test="secret != null">
+        secret,
+      </if>
+      <if test="token != null">
+        token,
+      </if>
+      <if test="url != null">
+        url,
+      </if>
+      <if test="wxAppid != null">
+        wx_appid,
+      </if>
+      <if test="wxSecret != null">
+        wx_secret,
+      </if>
+      <if test="pushFlag != null">
+        push_flag,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="deleted != null">
+        deleted,
+      </if>
+      <if test="createUser != null">
+        create_user,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        #{name},
+      </if>
+      <if test="appid != null">
+        #{appid},
+      </if>
+      <if test="secret != null">
+        #{secret},
+      </if>
+      <if test="token != null">
+        #{token},
+      </if>
+      <if test="url != null">
+        #{url},
+      </if>
+      <if test="wxAppid != null">
+        #{wxAppid},
+      </if>
+      <if test="wxSecret != null">
+        #{wxSecret},
+      </if>
+      <if test="pushFlag != null">
+        #{pushFlag},
+      </if>
+      <if test="status != null">
+        #{status},
+      </if>
+      <if test="deleted != null">
+        #{deleted},
+      </if>
+      <if test="createUser != null">
+        #{createUser.id},
+      </if>
+      <if test="createTime != null">
+        #{createTime},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.rocoinfo.entity.auth.App">
+    update auth_app
+    <set>
+      <if test="name != null">
+        name = #{name},
+      </if>
+      <if test="appid != null">
+        appid = #{appid},
+      </if>
+      <if test="secret != null">
+        secret = #{secret},
+      </if>
+      <if test="token != null">
+        token = #{token},
+      </if>
+      <if test="url != null">
+        url = #{url},
+      </if>
+      <if test="wxAppid != null">
+        wx_appid = #{wxAppid},
+      </if>
+      <if test="wxSecret != null">
+        wx_secret = #{wxSecret},
+      </if>
+      <if test="pushFlag != null">
+        push_flag = #{pushFlag},
+      </if>
+      <if test="status != null">
+        status = #{status},
+      </if>
+      <if test="deleted != null">
+        deleted = #{deleted},
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+
+  <select id="search" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM auth_app
+    <include refid="searchWhere"/>
+  </select>
+
+  <sql id="searchWhere">
+    <where>
+      deleted = 0
+      <if test="keyword != nul">
+        AND name LIKE CONCAT('%',#{keyword},'%')
+      </if>
+    </where>
+  </sql>
+
+  <resultMap id="ResultWithRoleInfo" type="com.rocoinfo.entity.auth.App" extends="BaseResultMap">
+    <collection property="roles" ofType="com.rocoinfo.entity.auth.Role">
+      <id column="role_id" property="id"/>
+      <result column="role_name" property="name"/>
+      <result column="role_checked" property="checked"/>
+    </collection>
+  </resultMap>
+
+  <select id="findAppWithRolesByUserIdAndAppIds" resultMap="ResultWithRoleInfo">
+    SELECT
+    a.*,
+    r.id AS role_id,
+    r.name AS role_name,
+    CASE WHEN ur.user_id IS NOT NULL THEN 'true'
+    ELSE 'false' END AS role_checked
+    FROM auth_app a LEFT JOIN auth_role r ON a.id = r.app_id
+    LEFT JOIN auth_user_role ur ON (ur.role_id = r.id AND ur.user_id = #{userId})
+    WHERE
+    a.name &lt;&gt; 'embed'
+    AND a.id IN
+    <foreach collection="appIds" item="appId" open="(" close=")" separator=",">
+      #{appId}
+    </foreach>
+  </select>
+
+  <select id="getByAppid" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM auth_app
+    WHERE appid = #{appid}
+  </select>
+
+  <select id="getByAppidAndSecret" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM auth_app
+    WHERE appid = #{appid} AND secret = #{secret}
+  </select>
+</mapper>

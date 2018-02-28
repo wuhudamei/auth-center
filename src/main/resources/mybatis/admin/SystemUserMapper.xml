@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.rocoinfo.repository.admin.SystemUserDao">
+  <resultMap id="BaseResultMap" type="com.rocoinfo.entity.admin.SystemUser">
+    <id column="id" property="id"/>
+    <result column="username" property="username"/>
+    <result column="password" property="password"/>
+    <result column="salt" property="salt"/>
+    <result column="name" property="name"/>
+    <result column="mobile" property="mobile"/>
+    <result column="email" property="email"/>
+    <result column="department" property="department"/>
+    <result column="company" property="company"/>
+    <result column="deleted" property="deleted"/>
+    <result column="status" property="status"/>
+    <result column="create_time" property="createTime"/>
+    <result column="create_user" property="createUser.id"/>
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    id, username, password, salt, name, mobile, email, department, company, deleted, status, create_time, create_user
+  </sql>
+
+  <select id="getById" resultMap="BaseResultMap" parameterType="long">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM auth_system_user
+    WHERE id = #{id}
+  </select>
+
+  <update id="deleteById" parameterType="long">
+    UPDATE auth_system_user
+    SET deleted = 1
+    WHERE id = #{id}
+  </update>
+
+  <insert id="insert" parameterType="com.rocoinfo.entity.admin.SystemUser" useGeneratedKeys="true" keyProperty="id">
+    insert into auth_system_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="username != null">
+        username,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="salt != null">
+        salt,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="mobile != null">
+        mobile,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="department != null">
+        department,
+      </if>
+      <if test="company != null">
+        company,
+      </if>
+      <if test="deleted != null">
+        deleted,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createUser != null">
+        create_user,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="username != null">
+        #{username},
+      </if>
+      <if test="password != null">
+        #{password},
+      </if>
+      <if test="salt != null">
+        #{salt},
+      </if>
+      <if test="name != null">
+        #{name},
+      </if>
+      <if test="mobile != null">
+        #{mobile},
+      </if>
+      <if test="email != null">
+        #{email},
+      </if>
+      <if test="department != null">
+        #{department},
+      </if>
+      <if test="company != null">
+        #{company},
+      </if>
+      <if test="deleted != null">
+        #{deleted},
+      </if>
+      <if test="status != null">
+        #{status},
+      </if>
+      <if test="createTime != null">
+        #{createTime},
+      </if>
+      <if test="createUser != null">
+        #{createUser.id},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="update" parameterType="com.rocoinfo.entity.admin.SystemUser">
+    UPDATE auth_system_user
+    <set>
+      <if test="username != null">
+        username = #{username},
+      </if>
+      <if test="password != null">
+        password = #{password},
+      </if>
+      <if test="salt != null">
+        salt = #{salt},
+      </if>
+      <if test="name != null">
+        name = #{name},
+      </if>
+      <if test="mobile != null">
+        mobile = #{mobile},
+      </if>
+      <if test="email != null">
+        email = #{email},
+      </if>
+      <if test="department != null">
+        department = #{department},
+      </if>
+      <if test="company != null">
+        company = #{company},
+      </if>
+      <if test="deleted != null">
+        deleted = #{deleted},
+      </if>
+      <if test="status != null">
+        status = #{status},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime},
+      </if>
+      <if test="createUser != null">
+        create_user = #{createUser.id},
+      </if>
+    </set>
+    WHERE id = #{id}
+  </update>
+
+  <select id="getByUsername" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM auth_system_user WHERE username = #{username}
+  </select>
+
+  <!-- 包含用户角色、权限信息-->
+  <resultMap type="SystemUser" id="MultiUserInfoMap" extends="BaseResultMap">
+    <collection property="roles" ofType="com.rocoinfo.entity.admin.SystemRole">
+      <result property="name" column="role_name"/>
+      <collection property="permission" ofType="com.rocoinfo.entity.admin.SystemPermission">
+        <result property="permission" column="permission"/>
+      </collection>
+    </collection>
+  </resultMap>
+
+  <select id="getAllInfoById" parameterType="long" resultMap="MultiUserInfoMap">
+    SELECT
+    u.*, r.name role_name,
+    p.permission
+    FROM
+    auth_system_user u
+    LEFT JOIN auth_system_user_role ur ON u.id = ur.user_id
+    LEFT JOIN auth_system_role r ON r.id = ur.role_id
+    LEFT JOIN auth_system_role_permission rp ON r.id = rp.role_id
+    LEFT JOIN auth_system_permission p ON p.id = rp.permission_id
+    WHERE u.id = #{id}
+  </select>
+
+  <select id="getAllInfoByUsername" parameterType="String" resultMap="MultiUserInfoMap">
+    SELECT
+    u.*, r.name role_name,
+    p.permission
+    FROM
+    auth_system_user u
+    LEFT JOIN auth_system_user_role ur ON u.id = ur.user_id
+    LEFT JOIN auth_system_role r ON r.id = ur.role_id
+    LEFT JOIN auth_system_role_permission rp ON r.id = rp.role_id
+    LEFT JOIN auth_system_permission p ON p.id = rp.permission_id
+    WHERE u.username = #{username}
+  </select>
+
+  <select id="search" parameterType="map" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    <include refid="searchFromWhere"/>
+    <if test="sort != null">
+      ORDER BY
+      <foreach collection="sort" item="order" separator=",">
+        ${order.property} ${order.direction}
+      </foreach>
+    </if>
+  </select>
+
+  <sql id="searchFromWhere">
+    FROM auth_system_user
+    <where>
+      id &lt;&gt; 1 AND deleted = 0
+      <if test="keyword != null">
+        AND (
+        username LIKE CONCAT('%',#{keyword},'%') OR name LIKE CONCAT('%',#{keyword},'%')
+        )
+      </if>
+      <if test="status != null">
+        AND status = #{status}
+      </if>
+    </where>
+  </sql>
+</mapper>

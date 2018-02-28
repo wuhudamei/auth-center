@@ -1,0 +1,239 @@
+/*20160918  admin login css*/
+
+body,
+html {
+    margin: 0;
+    padding: 0;
+}
+
+.wrap-login {
+    width: 100%;
+    height: 100%;
+    background: #fff;
+    position: relative;
+}
+
+.content-login {
+    width: 100%;
+    height: 100%;
+    background-size: cover !important;
+    background-position: center;
+    background-repeat: no-repeat;
+    background: url('../../img/bg.png') 50%;
+    background-size: 100% 100%;
+    display: flex;
+    align-items: center;
+}
+
+.copyright {
+    width: 100%;
+    font-size: 14px;
+    //padding: 15px 0;
+    height: 50px;
+    line-height: 50px;
+    color: #fff;
+    text-align: center;
+    background: #000;
+    position: absolute;
+    z-index: 10;
+    left: 0;
+    bottom: 0px;
+}
+
+.item-content {
+    width: 1200px;
+    margin: 70px auto;
+    display: flex;
+    .item-inner {
+        flex: 1;
+    }
+}
+
+.button-login {
+    width: 308px;
+    border: 1px solid #eb9605;
+    background: #eb9605;
+    color: #ffffff;
+    border-radius: 2px;
+}
+
+
+.qr-code {
+    width: 269px;
+    height: 269px;
+    display: block;
+    margin: 0 auto;
+}
+
+
+.bar {
+    width: 1000px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    padding: 22px 0;
+    margin: 0 auto;
+}
+
+.bar-item {
+    flex: 1;
+    font-size: 16px;
+    p {
+        margin: 0;
+        line-height: 1.5;
+    }
+}
+
+.bar-tel {
+    font: bold 30px '\5fae\8f6f\96c5\9ed1';
+    color: #eb9605;
+}
+
+.login-title {
+    float: right;
+    width: 350px;
+
+    margin-top: -40px;
+    color: #fff;
+    text-align: left;
+    font-weight: 100;
+    font-size: 18px;
+    line-height: .5;
+    h1 {
+        font: bold 30px/1 '\5fae\8f6f\96c5\9ed1;';
+    }
+}
+
+.login-form {
+    float: right;
+    width: 350px;
+    margin: 0 auto;
+    padding-bottom: 30px;
+    background: rgba(255, 2555, 2555, .5);
+}
+
+.login-nav {
+    font-size: 18px;
+    display: flex;
+    div {
+        flex: 1;
+        background: #323232;
+        text-align: center;
+        color: #fff;
+        padding: 12px 0;
+        &.current {
+            background: #000;
+            color: #eb9605;
+        }
+    }
+}
+
+.login-content {
+    margin: 30px 20px 0 20px;
+    .login-row {
+        position: relative;
+        margin-top: 30px;
+        border: 1px solid #999999;
+        background: #fff;
+        display: flex;
+        &.error {
+            border: 1px solid #f12b04;
+        }
+        .item-label {
+            // flex: 1;
+            width: 5%;
+        }
+        .item-input {
+            // flex: 1;
+            width: 95%;
+            font-size: 18px;
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+/* input/textarea*/
+
+input[type="reset"]::-moz-focus-inner,
+input[type="button"]::-moz-focus-inner,
+input[type="submit"]::-moz-focus-inner,
+input[type="file"]>input[type="button"]::-moz-focus-inner {
+    border: none;
+    padding: 0;
+}
+
+select,
+input,
+textarea {
+    vertical-align: middle;
+    outline: none;
+    resize: none;
+    background: #fff;
+    border: none;
+}
+
+// Show Modle
+.hidden {
+    visibility: hidden !important;
+}
+
+.show {
+    visibility: visible !important;
+}
+
+.disB {
+    display: block !important;
+}
+
+.disI {
+    display: inline !important;
+}
+
+.disIB {
+    display: inline-block !important;
+}
+
+.disN {
+    display: none !important;
+}
+
+.posA {
+    position: absolute !important;
+}
+
+.posR {
+    position: relative !important;
+}
+
+.fixed {
+    position: fixed !important;
+}
+
+// Text
+.text-center {
+    text-align: center !important;
+}
+
+.text-left {
+    text-align: left !important;
+}
+
+.text-right {
+    text-align: right !important;
+}
+
+.clearfix {
+    &:before,
+    &:after {
+        content: "";
+        display: block;
+        clear: both;
+    }
+}

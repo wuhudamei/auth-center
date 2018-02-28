@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.rocoinfo.repository.admin.SystemRolePermissionDao">
+
+  <insert id="insert">
+		insert into auth_system_role_permission (role_id, permission_id) values (#{roleId}, #{permissionId})
+	</insert>
+
+  <insert id="batchInsert" parameterType="java.util.List">
+    INSERT INTO auth_system_role_permission (role_id, permission_id)
+    VALUES
+    <foreach collection="rolePermissions" item="item" separator=",">
+      (#{item.roleId}, #{item.permissionId})
+    </foreach>
+  </insert>
+
+  <insert id="insertList">
+    insert into auth_system_role_permission (role_id, permission_id)
+    values
+    <foreach collection="permIdList" index="idx" item="permissionId" separator=",">
+      (${roleId}, ${permissionId})
+    </foreach>
+  </insert>
+
+  <delete id="deleteByRoleId" parameterType="long">
+		delete from auth_system_role_permission where role_id = #{roleId}
+	</delete>
+
+  <select id="findRolePermission" parameterType="long" resultType="SystemPermission">
+		SELECT DISTINCT
+		p.*,
+		CASE
+		WHEN rp.role_id IS NOT NULL THEN
+		'true'
+		ELSE
+		'false'
+		END AS checked
+		FROM
+		auth_system_permission p
+		LEFT JOIN auth_system_role_permission rp ON (p.id = rp.permission_id AND rp.role_id = #{roleId})
+		where p.module &lt;&gt; 'embed'
+		order by seq, p.id
+	</select>
+</mapper>

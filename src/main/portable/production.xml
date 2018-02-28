@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- 生产环境配置-->
+<portable-config>
+    <!-- application.properties -->
+    <config-file path="WEB-INF/classes/application.properties">
+        <replace key="base.url">http://login.mdni.net.cn</replace>
+        <replace key="profile">production</replace>
+        <replace key="socket.io.port">14082</replace>
+
+        <replace key="spring.redis.database">30</replace>
+        <replace key="spring.redis.host">r-2zef4160b7753ad4.redis.rds.aliyuncs.com</replace>
+        <replace key="spring.redis.password">ZkTWOScO9JIPHJyjwqEFiFNkQ1CHr9</replace>
+        <replace key="spring.redis.port">6379</replace>
+    </config-file>
+
+    <config-file path="WEB-INF/classes/application-db.properties">
+        <replace key="spring.datasource.url">jdbc:mysql://rm-2zebk0455jdg842i0.mysql.rds.aliyuncs.com/mdny_sale_service?useUnicode=true&amp;characterEncoding=utf-8&amp;zeroDateTimeBehavior=convertToNull&amp;transformedBitIsBoolean=true&amp;allowMultiQueries=true</replace>
+        <replace key="spring.datasource.username">mdnysaleuser</replace>
+        <replace key="spring.datasource.password">TPQFuXMP8fTM2iG3scxhRAxZo4SfUa</replace>
+    </config-file>
+
+    <!-- logback.xml -->
+    <config-file path="WEB-INF/classes/logback.xml">
+        <replace
+                xpath="//appender[@class='ch.qos.logback.core.ConsoleAppender']/filter[@class='ch.qos.logback.classic.filter.ThresholdFilter']/level">
+            OFF
+        </replace>
+        <replace
+                xpath="//appender[@class='ch.qos.logback.core.rolling.RollingFileAppender']/filter[@class='ch.qos.logback.classic.filter.ThresholdFilter']/level">
+            INFO
+        </replace>
+        <replace xpath="/configuration/root/@level">INFO</replace>
+        <replace xpath="/configuration/logger/@level">INFO</replace>
+    </config-file>
+</portable-config>

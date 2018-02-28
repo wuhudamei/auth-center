@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.rocoinfo.repository.auth.UserWechatDao">
+
+  <resultMap id="BaseResultMap" type="com.rocoinfo.entity.auth.UserWechat">
+    <id column="id" property="id"/>
+    <result column="openid" property="openid"/>
+    <result column="job_num" property="jobNum"/>
+    <result column="user_id" property="userId"/>
+  </resultMap>
+
+  <select id="findByOpenid" resultMap="BaseResultMap">
+    SELECT id,openid,user_id FROM wechat_user WHERE openid = #{openid}
+  </select>
+
+  <select id="findByUserId" resultMap="BaseResultMap">
+    SELECT id,openid,user_id FROM wechat_user WHERE user_id = #{userId}
+  </select>
+
+  <insert id="insert" parameterType="com.rocoinfo.entity.auth.UserWechat">
+    INSERT INTO wechat_user(openid,user_id,job_num) VALUES (#{openid},#{userId},#{jobNum})
+  </insert>
+
+  <update id="update" parameterType="com.rocoinfo.entity.auth.UserWechat">
+    UPDATE wechat_user SET user_id=#{userId} ,job_num=#{jobNum} WHERE id=#{id}
+  </update>
+
+  <select id="findByJobNums" resultMap="BaseResultMap">
+    SELECT id,openid,user_id,job_num FROM wechat_user WHERE job_num IN
+    <foreach collection="jobNums" item="jobNum" open="(" close=")" separator=",">
+      #{jobNum}
+    </foreach>
+  </select>
+
+
+  <select id="findByOrgNums" resultMap="BaseResultMap">
+    SELECT wu.id,wu.openid,wu.user_id,wu.job_num FROM wechat_user wu  LEFT JOIN  oa_employee oe
+    on wu.user_id = oe.id WHERE oe.org_code IN
+    <foreach collection="orgNums" item="orgNum" open="(" close=")" separator=",">
+      #{orgNum}
+    </foreach>
+  </select>
+
+</mapper>
