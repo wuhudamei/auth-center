@@ -35,8 +35,8 @@
             self.form.uuid = uuid;
             // 加载二维码
             self.qrcode = ctx + '/oauth/load/qrcode?uuid=' + uuid;
-            self.socket = io.connect('http://socket.mdni.net.cn'); //美得你生产
-            //self.socket = io.connect('http://sockettest.mdni.net.cn'); //测试
+            self.socket = io.connect('http://socket.damei.net.cn'); //大美生产
+            //self.socket = io.connect('http://sockettest.damei.net.cn'); //测试
             //self.socket = io.connect('http://localhost:14082'); //本地开发
             // 将随机串推到服务端，为了服务端向客户端推送消息时，区分推到哪个客户端
             self.socket.emit('req', {

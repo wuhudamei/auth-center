@@ -13,9 +13,9 @@
 
   <!-- ==================== 普通日志Appender ===================== -->
   <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-    <file>logs/mdni.log</file>
+    <file>logs/damei.log</file>
     <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-      <FileNamePattern>${log.path}/mdni-%d{yyyy-MM-dd}.%i.log</FileNamePattern>
+      <FileNamePattern>${log.path}/damei-%d{yyyy-MM-dd}.%i.log</FileNamePattern>
       <MaxHistory>30</MaxHistory>
       <TimeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
         <maxFileSize>500MB</maxFileSize>
@@ -37,10 +37,10 @@
     <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
       <level>INFO</level>
     </filter>
-    <File>logs/mdni-api.log</File>
+    <File>logs/damei-api.log</File>
     <!-- 按每小时滚动文件，如果一个小时内达到10M也会滚动文件, 滚动文件将会压缩成zip格式, 最多保留672个滚动文件 -->
     <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-      <fileNamePattern>logs//mdni-api-%d{yyyy-MM-dd_HH}.%i.zip</fileNamePattern>
+      <fileNamePattern>logs//damei-api-%d{yyyy-MM-dd_HH}.%i.zip</fileNamePattern>
       <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
         <maxFileSize>10MB</maxFileSize>
       </timeBasedFileNamingAndTriggeringPolicy>
@@ -57,10 +57,10 @@
     <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
       <level>INFO</level>
     </filter>
-    <File>logs/mdni-auth.log</File>
+    <File>logs/damei-auth.log</File>
     <!-- 按每小时滚动文件，如果一个小时内达到10M也会滚动文件, 滚动文件将会压缩成zip格式, 最多保留672个滚动文件 -->
     <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-      <fileNamePattern>logs//mdni-auth-%d{yyyy-MM-dd_HH}.%i.zip</fileNamePattern>
+      <fileNamePattern>logs//damei-auth-%d{yyyy-MM-dd_HH}.%i.zip</fileNamePattern>
       <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
         <maxFileSize>10MB</maxFileSize>
       </timeBasedFileNamingAndTriggeringPolicy>
@@ -71,38 +71,19 @@
     </encoder>
   </appender>
 
-  <appender name="flume" class="com.rocoinfo.appender.FlumeAppender">
-    <hosts>47.94.196.205:44444</hosts>
-    <!--<hosts>10.211.55.100:44444</hosts>-->
-    <batchSize>100</batchSize>
-    <maxIdleTime>2000</maxIdleTime>
-    <eventQueueSize>100000</eventQueueSize>
-    <additionHeaders>
-      webapp=oauth
-    </additionHeaders>
-    <additionProps>
-      connect-timeout = 2000
-    </additionProps>
-    <maxThreadPoolSize>4</maxThreadPoolSize>
-    <workQueueSize>100</workQueueSize>
-    <layout class="ch.qos.logback.classic.PatternLayout">
-      <pattern>%message</pattern>
-    </layout>
-  </appender>
-
   <!-- 开发环境下将spring mvc和mytais的日志级别设置为debug -->
   <logger name="org.springframework.web" level="DEBUG"/>
-  <logger name="com.rocoinfo.repository" level="DEBUG"/>
+  <logger name="cn.damei.repository" level="DEBUG"/>
   <logger name="com.apache.mybatis" level="DEBUG"/>
 
   <!-- 授权认证的业务日志 -->
-  <logger name="com.rocoinfo.oauth" level="INFO" additivity="false">
+  <logger name="cn.damei.oauth" level="INFO" additivity="false">
     <appender-ref ref="AuthAppender"/>
     <!--<appender-ref ref="flume"/>-->
   </logger>
 
   <!-- 接口调用日志 -->
-  <logger name="com.rocoinfo.api" level="INFO" additivity="false">
+  <logger name="cn.damei.api" level="INFO" additivity="false">
     <appender-ref ref="ApiAppender"/>
     <!--<appender-ref ref="flume"/>-->
   </logger>

@@ -13,9 +13,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="renderer" content="webkit">
 
-  <title>美得你账号绑定</title>
+  <title>大美账号绑定</title>
   <meta name="keywords" content="美的你认证中心绑定页面">
-  <meta name="description" content="美得你认证中心绑定页面">
+  <meta name="description" content="大美认证中心绑定页面">
 
   <%--<link rel="shortcut icon" href="/static/css/img/favicon.ico">--%>
   <link rel="stylesheet" href="${ctx}/static/css/lib.css">
@@ -39,7 +39,7 @@
           <form v-on:submit.prevent="submit" class="login-form" action="" method="POST">
             <div class="login-nav">
               <div class="current">
-                <h1>美得你认证系统</h1>
+                <h1>大美认证系统</h1>
                 <p>Me:Dilly Authentication system</p>
               </div>
             </div>
@@ -64,8 +64,8 @@
     </div>
     <footer>
       <div class="copyright">
-        <p>Copyright(c) 2016 mdni.cn All rights reserved </p>
-        <p>版权所有：北京美得你装饰设计有限公司 — 京ICP备17009877号-1 </p>
+        <p>Copyright(c) 2016 damei.cn All rights reserved </p>
+        <p>版权所有：大美装饰设计有限公司 — 京ICP备17009877号-1 </p>
       </div>
     </footer>
   </div>

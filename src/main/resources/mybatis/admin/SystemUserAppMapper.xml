@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.rocoinfo.repository.admin.SystemUserAppDao">
-  <resultMap id="SimpleResultMap" type="com.rocoinfo.entity.auth.App">
+<mapper namespace="cn.damei.repository.admin.SystemUserAppDao">
+  <resultMap id="SimpleResultMap" type="cn.damei.entity.auth.App">
     <id column="id" property="id"/>
     <result column="name" property="name"/>
     <result column="checked" property="checked"/>
   </resultMap>
 
-  <insert id="insert" parameterType="com.rocoinfo.entity.admin.SystemUserApp">
+  <insert id="insert" parameterType="cn.damei.entity.admin.SystemUserApp">
     INSERT INTO auth_system_user_app(user_id, app_id)
     VALUES(#{userId},#{appId})
   </insert>

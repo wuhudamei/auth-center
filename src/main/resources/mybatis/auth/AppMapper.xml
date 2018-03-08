@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.rocoinfo.repository.auth.AppDao">
-  <resultMap id="BaseResultMap" type="com.rocoinfo.entity.auth.App">
+<mapper namespace="cn.damei.repository.auth.AppDao">
+  <resultMap id="BaseResultMap" type="cn.damei.entity.auth.App">
     <id column="id" property="id"/>
     <result column="name" property="name"/>
     <result column="appid" property="appid"/>
@@ -30,7 +30,7 @@
     delete from auth_app
     where id = #{id}
   </delete>
-  <insert id="insert" parameterType="com.rocoinfo.entity.auth.App" useGeneratedKeys="true" keyProperty="id">
+  <insert id="insert" parameterType="cn.damei.entity.auth.App" useGeneratedKeys="true" keyProperty="id">
     insert into auth_app
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="name != null">
@@ -109,7 +109,7 @@
       </if>
     </trim>
   </insert>
-  <update id="update" parameterType="com.rocoinfo.entity.auth.App">
+  <update id="update" parameterType="cn.damei.entity.auth.App">
     update auth_app
     <set>
       <if test="name != null">
@@ -162,8 +162,8 @@
     </where>
   </sql>
 
-  <resultMap id="ResultWithRoleInfo" type="com.rocoinfo.entity.auth.App" extends="BaseResultMap">
-    <collection property="roles" ofType="com.rocoinfo.entity.auth.Role">
+  <resultMap id="ResultWithRoleInfo" type="cn.damei.entity.auth.App" extends="BaseResultMap">
+    <collection property="roles" ofType="cn.damei.entity.auth.Role">
       <id column="role_id" property="id"/>
       <result column="role_name" property="name"/>
       <result column="role_checked" property="checked"/>

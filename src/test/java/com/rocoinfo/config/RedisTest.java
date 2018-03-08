@@ -1,4 +1,4 @@
-package com.rocoinfo.config;
+package cn.damei.config;
 
 import com.google.common.collect.Maps;
 import org.junit.Test;
@@ -13,14 +13,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-/**
- * <dl>
- * <dd>Description: </dd>
- * <dd>Company: 大城若谷信息技术有限公司</dd>
- * <dd>@date：2017/5/26 下午6:27</dd>
- * <dd>@author：Aaron</dd>
- * </dl>
- */
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 public class RedisTest {
@@ -45,7 +38,7 @@ public class RedisTest {
         value.put("username", "test");
         value.put("name", "张三");
         value.put("mobile", "123333333");
-        value.put("email", "test@rocoinfo.com");
+        value.put("email", "test@damei.com");
 
         this.setHashToRedis(key, value, 10000000L, TimeUnit.MILLISECONDS);
     }
@@ -57,14 +50,7 @@ public class RedisTest {
         System.out.println(value);
     }
 
-    /**
-     * 将hash结构的数据放入redis
-     *
-     * @param key      key
-     * @param value    value
-     * @param timeout  失效时间
-     * @param timeUnit 时间单位
-     */
+
     private <HK, HV> void setHashToRedis(String key, Map<HK, HV> value, Long timeout, TimeUnit timeUnit) {
         if (key != null && value != null) {
             HashOperations<String, HK, HV> hashCache = redisTemplate.opsForHash();

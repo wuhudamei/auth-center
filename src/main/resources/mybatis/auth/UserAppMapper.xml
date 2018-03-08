@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.rocoinfo.repository.auth.UserAppDao">
-  <insert id="insert" parameterType="com.rocoinfo.entity.auth.UserApp">
+<mapper namespace="cn.damei.repository.auth.UserAppDao">
+  <insert id="insert" parameterType="cn.damei.entity.auth.UserApp">
     INSERT INTO auth_user_app(user_id,app_id)
     VALUES (#{userId}, #{appId})
   </insert>
@@ -14,7 +14,7 @@
     </foreach>
   </insert>
 
-  <resultMap id="AppResultMap" type="com.rocoinfo.entity.auth.App">
+  <resultMap id="AppResultMap" type="cn.damei.entity.auth.App">
     <id column="id" property="id"/>
     <result column="name" property="name"/>
   </resultMap>
@@ -33,7 +33,7 @@
     </foreach>
   </delete>
 
-  <delete id="deleteUserApp" parameterType="com.rocoinfo.entity.auth.UserApp">
+  <delete id="deleteUserApp" parameterType="cn.damei.entity.auth.UserApp">
     DELETE FROM auth_user_app WHERE user_id=#{userId} AND app_id =#{appId}
   </delete>
 </mapper>

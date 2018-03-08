@@ -1,4 +1,4 @@
-package com.rocoinfo;
+package cn.damei;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

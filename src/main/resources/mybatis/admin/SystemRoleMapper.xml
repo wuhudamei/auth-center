@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- namespace必须指向Dao接口 -->
-<mapper namespace="com.rocoinfo.repository.admin.SystemRoleDao">
-  <insert id="insert" parameterType="com.rocoinfo.entity.admin.SystemRole">
+<mapper namespace="cn.damei.repository.admin.SystemRoleDao">
+  <insert id="insert" parameterType="cn.damei.entity.admin.SystemRole">
       INSERT INTO auth_system_role(name,description)
       VALUES (#{name,jdbcType=VARCHAR},#{description,jdbcType=VARCHAR})
     </insert>
@@ -12,7 +12,7 @@
       DELETE FROM auth_system_role WHERE id = #{id} AND id &lt;&gt; 1
     </insert>
 
-  <update id="update" parameterType="com.rocoinfo.entity.admin.SystemRole">
+  <update id="update" parameterType="cn.damei.entity.admin.SystemRole">
       UPDATE auth_system_role SET NAME = #{name,jdbcType=VARCHAR},description = #{description,jdbcType=VARCHAR} WHERE id = #{id}
     </update>
 

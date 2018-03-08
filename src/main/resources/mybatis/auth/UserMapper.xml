@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.rocoinfo.repository.auth.UserDao">
-  <resultMap id="BaseResultMap" type="com.rocoinfo.entity.auth.User">
+<mapper namespace="cn.damei.repository.auth.UserDao">
+  <resultMap id="BaseResultMap" type="cn.damei.entity.auth.User">
     <id column="id" property="id"/>
     <result column="org_code" property="username"/>
     <result column="password" property="password"/>
@@ -26,7 +26,7 @@
     create_time
   </sql>
 
-  <update id="update" parameterType="com.rocoinfo.entity.auth.User">
+  <update id="update" parameterType="cn.damei.entity.auth.User">
     UPDATE oa_employee
     <set>
       <if test="password != null">
@@ -86,10 +86,10 @@
       AND employee_status = 'ON_JOB' AND deleted = 0;
   </select>
 
-  <resultMap type="com.rocoinfo.entity.auth.User" id="MultiUserInfoMap" extends="BaseResultMap">
-    <collection property="roles" ofType="com.rocoinfo.entity.auth.Role">
+  <resultMap type="cn.damei.entity.auth.User" id="MultiUserInfoMap" extends="BaseResultMap">
+    <collection property="roles" ofType="cn.damei.entity.auth.Role">
       <result property="name" column="role_name"/>
-      <collection property="permissions" ofType="com.rocoinfo.entity.auth.Permission">
+      <collection property="permissions" ofType="cn.damei.entity.auth.Permission">
         <result property="permission" column="permission"/>
       </collection>
     </collection>

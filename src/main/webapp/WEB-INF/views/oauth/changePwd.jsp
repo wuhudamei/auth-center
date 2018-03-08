@@ -12,7 +12,7 @@
 
   <title>修改密码</title>
   <meta name="keywords" content="美的你认证中心绑定页面">
-  <meta name="description" content="美得你认证中心绑定页面">
+  <meta name="description" content="大美认证中心绑定页面">
 
   <link rel="stylesheet" href="${ctx}/static/css/lib.css">
   <link rel="stylesheet" href="${ctx}/static/css/style.css">
