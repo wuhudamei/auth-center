@@ -18,6 +18,12 @@
   <script>
     var ctx = '${ctx}';
   </script>
+  <style>
+    .wrap-login .bar{width:100%; min-width: 1280px;padding:15px 10px ;}
+    .login-content .button-login{background: #2eb3f2;border:0;margin-top:40px;}
+    .login-content .login-row{margin-top:40px}
+
+  </style>
 </head>
 
 <body>
@@ -26,13 +32,13 @@
     <header class="bar">
       <a href="javascript:void(0)" class="bar-item"><img src="${ctx}/static/img/logo-new.png"></a>
       <div class="bar-item">
-        <p><i class="icon icon-tel">icon</i>全国统一免费咨询热线</p>
-        <p class="bar-tel">400-825-8833</p>
+        <%--<p><i class="icon icon-tel">icon</i>全国统一免费咨询热线</p>
+        <p class="bar-tel">400-825-8833</p>--%>
       </div>
     </header>
     <div class="content content-login">
       <div class="item-content">
-        <div class="item-inner"><img src="${ctx}/static/img/img.png"></div>
+
         <div class="item-inner clearfix">
           <div class="login-title">
             <h1>大美认证系统</h1>
@@ -45,8 +51,8 @@
             </div>
 
             <div class="login-content" v-if="nameLogin==0">
-              <div class="qr-code">
-                <img width="267px" height="267px" :src="qrcode"/>
+              <div class="qr-code" style="width: 243px;height:243px;">
+                <img width="243px" height="243px" :src="qrcode"/>
               </div>
             </div>
 
@@ -67,6 +73,7 @@
             </div>
           </form>
         </div>
+        <div class="item-inner" style="margin-left:100px;margin-top:80px;"><img src="${ctx}/static/img/img.png"></div>
       </div>
     </div>
     <footer>

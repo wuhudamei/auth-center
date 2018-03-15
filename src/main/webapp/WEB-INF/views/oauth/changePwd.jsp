@@ -15,7 +15,7 @@
   <meta name="description" content="大美认证中心绑定页面">
 
   <link rel="stylesheet" href="${ctx}/static/css/lib.css">
-  <link rel="stylesheet" href="${ctx}/static/css/style.css">
+  <link rel="stylesheet" href="${ctx}/static/static/styledm.css">
   <script src="${ctx}/static/js/lib.js"></script>
   <!-- 页面公用 -->
   <script>
@@ -23,34 +23,51 @@
   </script>
 </head>
 
-<body class="gray-bg">
-<div id=loginCont class="middle-box text-center loginscreen  animated fadeInDown">
-  <div>
-    <div>
-      <h1 class="logo-name"><img src="/static/img/logo.png"></h1>
+<body>
+<div id="loginCont" class="wrapper">
+  <div class="header-bg">
+    <div class="header clearfix">
+      <a href="javascript:;" class="logo pull-left">
+        <img src="${ctx}/static/img/logo.png" alt="logo">
+      </a>
+      <!--/.logo-->
+      <div class="log-in pull-right clearfix">
+        <div class="item pull-left">
+          <%--系统管理员 你好，欢迎使用大美新风认证中心系统平台！--%>
+        </div>
+        <%--<a class="item pull-left _last" href="javascript:void(0);">退出</a>--%>
+      </div>
+      <!--/.log-in-->
     </div>
-    <h3>修改密码</h3>
-
-    <form v-on:submit.prevent="submit" role="form">
-      <div class="form-group">
-        <input
-          v-model="form.originPwd"
-          type="password" class="form-control" placeholder="请输入原密码" required>
-      </div>
-      <div class="form-group">
-        <input
-          v-model="form.newPwd"
-          type="password" class="form-control" placeholder="请输入新密码" required>
-      </div>
-      <div class="form-group">
-        <input
-          v-model="form.confirmPwd"
-          type="password" class="form-control" placeholder="请再次输入新密码" required>
-      </div>
-      <button :disabled="submitting" type="submit" class="btn btn-block btn-primary">修 改</button>
-    </form>
+    <!--/.header-->
+  </div>
+  <!--/.header-bg-->
+  <div class="content content-login">
+    <div class="login-block">
+      <div class="login-tit">修改密码</div>
+      <form class="input-form" v-on:submit.prevent="submit" role="form">
+        <div class="form-label clearfix">
+          <input type="password" id="yPassword" v-model="form.originPwd" class="input-item" placeholder="请输入原密码">
+        </div>
+        <div class="form-label clearfix">
+          <input type="password" id="nPassword" v-model="form.newPwd" class="input-item" placeholder="请输入新密码">
+        </div>
+        <div class="form-label clearfix">
+          <input type="password" id="anPassword" v-model="form.confirmPwd" class="input-item" placeholder="请再次输入新密码">
+        </div>
+        <div class="form-label clearfix">
+          <button class="btn" :disabled="submitting" type="submit">修 改</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="footer">
+    <div class="copyright"><span>Copyright © 2018北京大美信息技术有限公司  版权所有</span></div>
   </div>
 </div>
+<!--/.wrapper-->
+</body>
+
 
 <script src="${ctx}/static/js/containers/login/changePwd.js"></script>
 </body>
