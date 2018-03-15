@@ -15,7 +15,7 @@
 
   <!-- 测试使用的数据库-->
   <config-file path="WEB-INF/classes/application-db.properties">
-    <replace key="spring.datasource.url">jdbc:mysql://172.16.12.101/damei_oa?useUnicode=true&amp;characterEncoding=utf-8&amp;zeroDateTimeBehavior=convertToNull&amp;transformedBitIsBoolean=true&amp;allowMultiQueries=true</replace>
+    <replace key="spring.datasource.url">jdbc:mysql://rm-2zea20z998tfwmd68.mysql.rds.aliyuncs.com:3306/damei_oa?useUnicode=true&amp;characterEncoding=utf-8&amp;zeroDateTimeBehavior=convertToNull&amp;transformedBitIsBoolean=true&amp;allowMultiQueries=true</replace>
     <replace key="spring.datasource.username">dmoauser</replace>
     <replace key="spring.datasource.password">dmoauser!@#</replace>
   </config-file>
