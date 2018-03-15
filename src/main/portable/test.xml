@@ -13,6 +13,7 @@
     <replace key="spring.redis.port">6379</replace>
   </config-file>
 
+
   <!-- 测试使用的数据库-->
   <config-file path="WEB-INF/classes/application-db.properties">
     <replace key="spring.datasource.url">jdbc:mysql://rm-2zea20z998tfwmd68.mysql.rds.aliyuncs.com/damei_oa?useUnicode=true&amp;characterEncoding=utf-8&amp;zeroDateTimeBehavior=convertToNull&amp;transformedBitIsBoolean=true&amp;allowMultiQueries=true</replace>
