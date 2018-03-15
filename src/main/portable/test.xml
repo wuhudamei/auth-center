@@ -8,7 +8,7 @@
     <replace key="socket.io.port">14083</replace>
 
     <replace key="spring.redis.database">15</replace>
-    <replace key="spring.redis.host">47.95.234.249</replace>
+    <replace key="spring.redis.host">172.16.25.72</replace>
     <replace key="spring.redis.password">redis123!@#</replace>
     <replace key="spring.redis.port">6379</replace>
   </config-file>
